@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+group 'me.gabytm.placeholderapi'
+version '1.0.0'
+
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+
+    maven({ url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' })
+    maven({ url 'https://oss.sonatype.org/content/repositories/snapshots/' })
+    maven({ url 'http://repo.extendedclip.com/content/repositories/placeholderapi/' })
+}
+
+dependencies {
+    compileOnly 'me.clip:placeholderapi:2.10.4'
+    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+}
+
+shadowJar {
+    archiveFileName = "PAPI-Armor [${project.version}].jar"
+    //destinationDir file("D:/Projects/MinecraftServers/1.8.8/plugins/PlaceholderAPI/expansions")
+}
