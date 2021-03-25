@@ -3,6 +3,7 @@ package me.gabytm.placeholderapi.armor;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -40,8 +41,9 @@ public class ArmorExpansion extends PlaceholderExpansion {
     }
 
     @Override
-    public String onPlaceholderRequest(Player player, String params) {
-        loadItems(player.getInventory());
+    public String onRequest(OfflinePlayer player, String params) {
+        Player p = (Player) player;
+        loadItems(p.getInventory());
 
         if (!params.contains("_")) {
             return null;
