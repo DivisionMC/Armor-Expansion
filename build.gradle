@@ -1,31 +1,44 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
-group 'me.gabytm.placeholderapi'
-version '1.0.0'
-
-sourceCompatibility = JavaVersion.VERSION_1_8
+group = 'me.gabytm.placeholderapi'
+version = '1.0.0'
 
 repositories {
-    mavenCentral()
-
-    maven({ url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' })
-    maven({ url 'https://oss.sonatype.org/content/repositories/snapshots/' })
-    maven({ url 'http://repo.extendedclip.com/content/repositories/placeholderapi/' })
+    maven {
+        name 'papermc'
+        url 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven {
+        name 'sonatype'
+        url 'https://oss.sonatype.org/content/groups/public/'
+    }
+    maven {
+        name 'placeholderapi'
+        url 'https://repo.extendedclip.com/releases/'
+    }
 }
 
 dependencies {
-    compileOnly 'me.clip:placeholderapi:2.10.4'
-    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compileOnly 'me.clip:placeholderapi:2.11.6'
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
 }
 
-compileJava {
-    options.encoding = "UTF-8"
+def targetJavaVersion = 21
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
 }
 
-shadowJar {
-    archiveFileName = "PAPI-Armor [${project.version}].jar"
-    //destinationDir file("D:/Projects/MinecraftServers/1.8.8/plugins/PlaceholderAPI/expansions")
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release.set(targetJavaVersion)
+    }
 }

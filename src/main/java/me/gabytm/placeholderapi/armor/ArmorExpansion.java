@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("deprecation")
 public class ArmorExpansion extends PlaceholderExpansion {
     private final Map<ArmorSlot, ItemStack> armor = new HashMap<>(4);
 
@@ -42,6 +43,9 @@ public class ArmorExpansion extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
+        if (player==null) return "";
+        if (!player.isConnected()) return "";
+
         Player p = (Player) player;
         loadItems(p.getInventory());
 
